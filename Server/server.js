@@ -6,7 +6,7 @@ const http = require('http');
 const { Server } = require('socket.io');
 
 const Team = require('./models/team'); 
-const Player = require('./models/Player');
+const Player = require('./models/player');
 
 const app = express();
 const server = http.createServer(app);
