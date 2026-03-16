@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Player = require('../models/Player'); // Path check kar lena
+const Player = require('../models/player'); // Path check kar lena
 
 // 1. Get All Players
 router.get('/all', async (req, res) => {

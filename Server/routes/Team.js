@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Team = require('../models/Team');
+const Team = require('../models/team');
 const verifyToken = require('../middleware/authMiddleware'); // ✅ Security guard import kiya
 
 // 1. Register Team (Sirf Admin hi add kar sakta hai)
