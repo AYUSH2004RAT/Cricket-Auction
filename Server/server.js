@@ -5,7 +5,7 @@ const cors = require('cors');
 const http = require('http');
 const { Server } = require('socket.io');
 
-const Team = require('./models/Team'); 
+const Team = require('./models/team'); 
 const Player = require('./models/Player');
 
 const app = express();
