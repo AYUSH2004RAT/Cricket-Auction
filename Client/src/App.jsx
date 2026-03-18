@@ -1,7 +1,8 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider } from './context/AuthContext'; // AuthProvider import karein
+import { AuthProvider } from './context/AuthContext';
 import Navbar from './components/Navbar';
 import Login from './pages/Login';
+import Register from './pages/Register';
 import AdminDashboard from './pages/AdminDashboard';
 import AuctionRoom from './pages/AuctionRoom';
 import TeamRegistration from './pages/TeamRegistration';
@@ -11,7 +12,6 @@ import LiveBroadcast from './pages/LiveBroadcast';
 
 function App() {
   return (
-    // Sabse pehle AuthProvider se wrap karein
     <AuthProvider>
       <Router>
         <Navbar />
@@ -19,12 +19,9 @@ function App() {
           <Routes>
             <Route path="/" element={<Navigate to="/login" />} />
             <Route path="/login" element={<Login />} />
-
-            {/* Admin Control Path */}
+            <Route path="/register" element={<Register />} />
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/teams" element={<TeamRegistration />} />
-
-            {/* Auction & Live Stats Path */}
             <Route path="/auction" element={<AuctionRoom />} />
             <Route path="/leaderboard" element={<Leaderboard />} />
             <Route path="/squads" element={<Squads />} />

@@ -1,5 +1,5 @@
 import { useState, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import API from '../api/axiosConfig';
 import { User, Lock, Loader2 } from 'lucide-react';
@@ -9,38 +9,30 @@ const Login = () => {
   const [credentials, setCredentials] = useState({ identifier: '', password: '' });
   const [focusedField, setFocusedField] = useState(null);
   const [loading, setLoading] = useState(false);
-
-  // ✅ Viewer mode ke liye naya state
   const [tourneyCode, setTourneyCode] = useState('');
-
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
-
     localStorage.clear();
     sessionStorage.clear();
-
     try {
       const res = await API.post('/auth/login', {
         identifier: credentials.identifier,
         password: credentials.password,
         isAdmin: isAdmin,
       });
-
       if (res.data.success) {
         const userData = res.data.user;
         localStorage.setItem('user', JSON.stringify(userData));
         localStorage.setItem('token', res.data.token);
         login(userData);
-
         const targetPath = userData.role === 'admin' ? '/admin' : '/auction';
         window.location.href = targetPath;
       }
     } catch (err) {
-      console.error('Login Error:', err.response ? err.response.data : err.message);
       alert(err.response?.data?.message || 'Login failed - Check Credentials');
     } finally {
       setLoading(false);
@@ -51,22 +43,14 @@ const Login = () => {
 
   return (
     <div className="relative w-full min-h-screen flex items-center justify-center p-4 sm:p-6 lg:p-8 overflow-hidden font-sans bg-slate-950">
-
-      {/* Animated gradient background */}
       <div className="absolute inset-0 w-full h-full">
         <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-600/10 to-red-600/20 animate-gradient" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-500/10 via-transparent to-transparent" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-red-500/10 via-transparent to-transparent" />
       </div>
-
       <div className="relative w-full max-w-[90%] sm:max-w-md z-10">
-
-        {/* Glow effect behind card */}
         <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-[2rem] sm:rounded-[3rem] opacity-20 blur-2xl" />
-
         <div className="relative backdrop-blur-xl bg-slate-800/60 border border-white/10 rounded-[2rem] sm:rounded-[3rem] shadow-2xl p-6 sm:p-10">
-
-          {/* Header */}
           <div className="text-center mb-8 sm:mb-10">
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black italic tracking-tighter uppercase">
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-red-400">
@@ -77,8 +61,6 @@ const Login = () => {
               {isAdmin ? 'Admin command center' : 'Team owner portal'}
             </p>
           </div>
-
-          {/* Premium Toggle */}
           <div className="relative bg-slate-900/80 p-1 rounded-2xl border border-white/5 mb-8 flex">
             <div
               className="absolute top-1 bottom-1 w-[calc(50%-4px)] bg-gradient-to-r rounded-xl transition-all duration-300 ease-out shadow-lg"
@@ -92,25 +74,19 @@ const Login = () => {
             <button
               type="button"
               onClick={() => setIsAdmin(false)}
-              className={`relative flex-1 py-3 text-xs sm:text-sm font-bold uppercase tracking-wider transition-colors duration-200 z-10 ${!isAdmin ? 'text-white' : 'text-slate-400 hover:text-white'
-                }`}
+              className={`relative flex-1 py-3 text-xs sm:text-sm font-bold uppercase tracking-wider transition-colors duration-200 z-10 ${!isAdmin ? 'text-white' : 'text-slate-400 hover:text-white'}`}
             >
               Team Owner
             </button>
             <button
               type="button"
               onClick={() => setIsAdmin(true)}
-              className={`relative flex-1 py-3 text-xs sm:text-sm font-bold uppercase tracking-wider transition-colors duration-200 z-10 ${isAdmin ? 'text-white' : 'text-slate-400 hover:text-white'
-                }`}
+              className={`relative flex-1 py-3 text-xs sm:text-sm font-bold uppercase tracking-wider transition-colors duration-200 z-10 ${isAdmin ? 'text-white' : 'text-slate-400 hover:text-white'}`}
             >
               Admin
             </button>
           </div>
-
-          {/* Form */}
           <form onSubmit={handleLogin} className="space-y-5 sm:space-y-6">
-
-            {/* Identifier field */}
             <div className="relative">
               <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">
                 <User size={18} className="sm:w-5 sm:h-5" />
@@ -134,8 +110,6 @@ const Login = () => {
                 {isAdmin ? 'Username' : 'Team ID'}
               </label>
             </div>
-
-            {/* Password field */}
             <div className="relative">
               <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">
                 <Lock size={18} className="sm:w-5 sm:h-5" />
@@ -159,8 +133,6 @@ const Login = () => {
                 Password
               </label>
             </div>
-
-            {/* Submit button */}
             <button
               type="submit"
               disabled={loading}
@@ -182,8 +154,13 @@ const Login = () => {
               </span>
             </button>
           </form>
-
-          {/* ✅ NAYA FEATURE: Viewer Entry Box */}
+          {isAdmin && (
+            <div className="mt-4 text-center">
+              <Link to="/register" className="text-sm text-blue-400 hover:text-blue-300 transition-colors">
+                Don't have an admin account? Register here
+              </Link>
+            </div>
+          )}
           <div className="mt-8 pt-6 border-t border-slate-700">
             <p className="text-center text-[10px] sm:text-xs font-black text-slate-500 uppercase tracking-[0.2em] mb-4">
               Just watching a tournament?
@@ -210,11 +187,9 @@ const Login = () => {
               </button>
             </div>
             <p className="text-center text-[9px] text-slate-600 mt-3">
-              *Ask the Admin for their Username to watch live
+              Ask the Admin for their Username to watch live
             </p>
           </div>
-
-          {/* Footer hint */}
           <p className="text-center text-slate-500 text-[10px] sm:text-xs mt-6 opacity-60">
             Secure • Live Auction Environment
           </p>
