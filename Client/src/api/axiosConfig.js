@@ -1,7 +1,10 @@
 import axios from 'axios';
 
 const API = axios.create({
-    baseURL: 'http://localhost:5000/api'
+    baseURL: import.meta.env.VITE_API_URL || 
+             (import.meta.env.PROD 
+                ? 'https://cricket-auction-backend-vrq8.onrender.com/api' 
+                : 'http://localhost:5000/api')
 });
 
 // Request bhejte waqt localStorage se token nikal kar header mein daal do
