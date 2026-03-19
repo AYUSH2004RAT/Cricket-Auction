@@ -26,7 +26,9 @@ const Register = () => {
         navigate('/login');
       }
     } catch (err) {
-      alert(err.response?.data?.message || 'Registration failed');
+      const serverMsg = err.response?.data?.message || err.response?.data?.error;
+      alert(`Registration failed: ${serverMsg || err.message}`);
+      console.error("Full Registration Error:", err);
     } finally {
       setLoading(false);
     }

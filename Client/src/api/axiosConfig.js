@@ -7,6 +7,8 @@ const API = axios.create({
                 : 'http://localhost:5000/api')
 });
 
+console.log("Current API Base URL:", API.defaults.baseURL);
+
 // Request bhejte waqt localStorage se token nikal kar header mein daal do
 API.interceptors.request.use((req) => {
     const token = localStorage.getItem('token');
