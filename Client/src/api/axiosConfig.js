@@ -1,10 +1,9 @@
 import axios from 'axios';
 
 const API = axios.create({
-    baseURL: import.meta.env.VITE_API_URL || 
-             (import.meta.env.PROD 
+    baseURL: import.meta.env.PROD 
                 ? 'https://cricket-auction-backend-vrq8.onrender.com/api' 
-                : 'http://localhost:5000/api')
+                : 'http://localhost:5000/api'
 });
 
 console.log("Current API Base URL:", API.defaults.baseURL);
